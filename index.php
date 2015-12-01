@@ -8,7 +8,7 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
 $autoload = dirname(__FILE__) . '/protected/vendor/autoload.php';
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/../yii/framework/yii.php';
+$yii=dirname(__FILE__).'/protected/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 
 
