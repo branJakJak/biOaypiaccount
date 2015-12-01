@@ -55,17 +55,21 @@ class SubAccountController extends Controller
 		/*delete at the database */
 		$model = SubAccount::model()->findByPk($postedData->id);
 		if ($model) {
-			$model->delete();
-			if ($model->mainAccount->status === MainAccount::MAIN_ACCT_STATUS_ACTIVE) {
-				/*if main account status is active  - delete at the api*/
-				/*@TODO - to be tested*/
-				
-				// $model->remoteDelete();
+			/*if main account status is active  - delete at the api*/
+			$result = $model->remoteDelete();
+			$xmlObj = simplexml_load_string($result);
+			if (isset($xmlObj->Result) && ( (string)$xmlObj->Result ) !== 'Failed') {
+				$model->delete();
+				$this->json_message = array(
+						"status"=>"ok",
+						"message"=>"Sub account deleted.",
+				);				
+			}else{
+				$this->json_message = array(
+					"status"=>"failed",
+					"message"=>(string)$xmlObj->Reason,
+				);			
 			}
-			$this->json_message = array(
-					"status"=>"ok",
-					"message"=>"Sub account deleted.",
-			);
 		}else{
 			$this->json_message = array(
 					"status"=>"failed",
@@ -86,21 +90,27 @@ class SubAccountController extends Controller
 	}
 	public function actionRegister()
 	{
-		/*@TODO - unblock*/
-		// header("Content-Type: application/json");
+		header("Content-Type: application/json");
 		$postedData = json_decode(file_get_contents("php://input"));
 		$newSubAcct = new SubAccount();
 		$newSubAcct->main_account = $postedData->main->id;
 		$newSubAcct->username = $postedData->sub->username;
 		$newSubAcct->password = $postedData->sub->password;
-		if ($newSubAcct->save()) {
-			/*@TODO - to be tested*/
-			// $res = $newSubAcct->registerRemote();
-			$res = "ok";
-			$this->json_message = array(
-					'status'=>'ok',
-					'message'=>$res
-			);			
+		if ($newSubAcct->validate()) {
+			$res = $newSubAcct->registerRemote();
+			$xmlObj = simplexml_load_string($res);
+			if (isset($xmlObj->Result) && strtolower((string)$xmlObj->Result) !== 'failed') {
+				$newSubAcct->save();
+				$this->json_message = array(
+						'status'=>'ok',
+						'message'=>'ok'
+				);							
+			}else{
+				$this->json_message = array(
+						'status'=>'failed',
+						'message'=>(string)$xmlObj->Reason
+				);							
+			}
 		}else{
 			$this->json_message = array(
 					'status'=>'failed',

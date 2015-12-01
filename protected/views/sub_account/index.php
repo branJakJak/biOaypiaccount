@@ -38,8 +38,8 @@
 			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in filteredAccounts = (mainAccounts | filter:filterTextMainAccount)">
 				<li ng-class="{ 'active':selectedMainAccountKey === key }">
 					<a href="#dropdowns" ng-click="indexCtrl.selectMainAccount(key)">
-						<i class='badge badge-info pull-right' ng-show="currentMainAccount.status === 'active'">active</i>
-						<i class='badge pull-right' ng-show="currentMainAccount.status	 === 'unconfirmed'">unconfirmed</i>
+						<i class='badge badge-info pull-right hidden' ng-show="currentMainAccount.status === 'active'">active</i>
+						<i class='badge pull-right hidden' ng-show="currentMainAccount.status	 === 'unconfirmed'">unconfirmed</i>
 						{{currentMainAccount.username}}
 					</a>
 
@@ -89,8 +89,6 @@
 							</td>
 							<td>
 								<div class="btn-group">
-									{{new_sub_account_password.length}} - 
-									{{new_sub_account_username.length}}
 									<button ng-disabled="(!new_sub_account_username || new_sub_account_username.length == 0 ) || (!new_sub_account_password || new_sub_account_password.length == 0)" type="button" class="btn btn-default" ng-click="indexCtrl.registerSubAccount()">
 										{{add_button_text}}
 									</button>

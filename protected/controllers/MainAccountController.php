@@ -24,7 +24,7 @@ class MainAccountController extends Controller
     {
         return array(
             array('allow',
-                'actions' => array('create'),
+                'actions' => array('create','checkMainAccounts'),
                 'users' => array('@'),
             ),
             array('deny',
@@ -51,5 +51,18 @@ class MainAccountController extends Controller
             }
         }
         $this->render('//main_account/form', array('model' => $model));
+    }
+    public function actionCheckMainAccounts()
+    {
+        header("Content-Type: application/json");
+        /*get all unconfirmed main accounts*/
+        $criteria = new CDbCriteria;
+        $criteria->compare("status",MainAccount::MAIN_ACCT_STATUS_INACTIVE);
+        $allModels = MainAccount::model()->findAll($criteria);
+        $mainAccountChecker = new MainAccountChecker;
+        foreach ($allModels as $key => $currentMainModel) {
+            
+        }
+        echo json_encode(array("status"=>"ok","message"=>"All unconfirmed accounts checked"));
     }
 }

@@ -77,6 +77,14 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 			window.lastError = error;
 		});
 	}
+
+	/*run main account status checker*/
+	// MainAccountService.checkMainAccountStatus()
+	// 	.then(function(){
+	// 		//whatever happens , update get main account fresh data
+	// 	});
+
+
 	/*initialize main account*/
 	MainAccountService.getMainAccount()
 		.then(function(response){
@@ -90,6 +98,9 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 function MainAccountService($http){
 	this.getMainAccount = function(){
 		return $http.get("/rest/mainAccount");
+	}
+	this.checkMainAccountStatus = function(){
+		return $http.get("/rest/mainAccount/checkMainAccounts");
 	}
 }
 function SubAccountService($http){
