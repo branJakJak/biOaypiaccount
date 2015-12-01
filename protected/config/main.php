@@ -101,7 +101,7 @@ return array(
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=dncsyste_acct',
             'emulatePrepare' => true,
-            'username' => 'dncsyste_acct',
+            'username' => 'dncsyste_actt',
             'password' => 'hitman052529',
             'charset' => 'utf8',  
         ),
