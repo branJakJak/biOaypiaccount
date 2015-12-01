@@ -99,10 +99,10 @@ return array(
             ),
         ),
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=voipacctcreator',
+            'connectionString' => 'mysql:host=localhost;dbname=dncsyste_acct',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => 'root',
+            'username' => 'dncsyste_acct',
+            'password' => 'hitman052529',
             'charset' => 'utf8',  
         ),
         'errorHandler' => array(
