@@ -4,3 +4,7 @@ data/
 *.bat
 protected/components/UserIdentity.php
 protected/vendor/
+protected/composer.phar
+composer.phar
+error_log
+protected/error_log
