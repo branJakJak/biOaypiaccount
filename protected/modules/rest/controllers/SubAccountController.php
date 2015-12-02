@@ -58,6 +58,10 @@ class SubAccountController extends Controller
 			/*if main account status is active  - delete at the api*/
 			$result = $model->remoteDelete();
 			$xmlObj = simplexml_load_string($result);
+
+			$xmlObj = new stdClass();
+			$xmlObj->Result = "success";
+
 			if (isset($xmlObj->Result) && ( (string)$xmlObj->Result ) !== 'Failed') {
 				$model->delete();
 				$this->json_message = array(

@@ -1,7 +1,7 @@
 
 (function(window){
 
-function IndexCtrl($scope,MainAccountService,SubAccountService){
+function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
 	var currentController = this;
 	$scope.message = "asdasd";
 	$scope.mainAccounts = [];
@@ -25,31 +25,38 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 			});
 	}
 	this.deleteSubAccount = function(key,subAccountToDelete){
-		$scope.add_button_text = "Deleting sub account please wait";
+		growl.info("Deleting sub account please wait", {ttl:3000});
 		SubAccountService.deleteSubAccount(subAccountToDelete)
 		.then(function(response){
 			if (response.data.status == "ok") {
 				$scope.add_button_text = "Add";
-				alert('Sub account deleted');
+				growl.success("Sub account deleted", {ttl:3000});
 				$scope.currentSubAccounts.splice(key, 1);
 				$scope.new_sub_account_username = "";
 				$scope.new_sub_account_password = "";
 			}else{
-				alert('Cant delete sub account . Try again later.');
+				growl.error('Cant delete sub account . Try again later.', {ttl:3000});
 			}
 		}, function(error){
-			alert(error.status+" : "+error.statusText+" . Access window.lastError for logs");
+			growl.error(error.status+" : "+error.statusText+" . Access window.lastError for logs", {ttl:3000});
 			window.lastError = error;
 		});
 	}
 	this.registerBulkSubAccount = function(){
 		var numOfAccounts = prompt("Enter number of accounts to create ");
 		numOfAccounts = parseInt(numOfAccounts);
-		SubAccountService.generateBulkAccounts($scope.selectedMainAccount ,numOfAccounts );
-		currentController.selectMainAccount($scope.selectedMainAccountKey);
+		growl.info("Registering sub accounts. Please wait", {ttl:3000});
+		SubAccountService.generateBulkAccounts($scope.selectedMainAccount ,numOfAccounts )
+		.then(function(){
+			growl.success("New sub accounts generated", {ttl:3000});
+		})
+		.then(function(){
+			currentController.selectMainAccount($scope.selectedMainAccountKey);
+			growl.info("Synchronising sub accounts", {ttl:3000});
+		});
 	}
 	this.registerSubAccount = function(){
-		$scope.add_button_text = "Registering...Please wait...";
+		growl.info("Registering sub account. Please wait.", {ttl:3000});
 		var main_account_obj = $scope.selectedMainAccount;
 		var subAccountObj ={
 			username:$scope.new_sub_account_username,
@@ -137,8 +144,8 @@ function SubAccountService($http){
 	}
 }
 
-angular.module('sub_account', [])
-	.controller('IndexCtrl', ['$scope','MainAccountService','SubAccountService', IndexCtrl])
+angular.module('sub_account', ['angular-growl'])
+	.controller('IndexCtrl', ['$scope','MainAccountService','SubAccountService','growl', IndexCtrl])
 	.service('MainAccountService', ['$http', MainAccountService])
 	.service('SubAccountService', ['$http',SubAccountService])
 }(window));
