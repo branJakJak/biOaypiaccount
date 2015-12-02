@@ -43,15 +43,24 @@
 			</ul>
 			<input type="search" class="form-control" required="required" title="" placeholder="Search Main account" style="width: 227px;padding: 13px;" ng-model="filterTextMainAccount">
 			<h5>Displaying {{filteredAccounts.length}} of {{mainAccounts.length}} result/s.</h5>
-			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in filteredAccounts = (mainAccounts | filter:filterTextMainAccount)">
+			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{username:filterTextMainAccount})">
 				<li ng-class="{ 'active':selectedMainAccountKey === key }">
 					<a href="#dropdowns" ng-click="indexCtrl.selectMainAccount(key)">
-						<i class='badge badge-info pull-right hidden' ng-show="currentMainAccount.status === 'active'">active</i>
-						<i class='badge pull-right hidden' ng-show="currentMainAccount.status	 === 'unconfirmed'">unconfirmed</i>
-						<i class='badge badge-warning pull-right' ng-click="indexCtrl.deleteCurrentMainAccount(key)">
-							<span class=" icon-remove-sign icon-white"></span>
-						</i>
-						{{currentMainAccount.username}}
+						<div style="width:30px;float:left">
+							<i class='pull-left' ng-click="indexCtrl.deleteCurrentMainAccount(key)">
+								<span class=' icon-remove'></span>
+							</i>
+							<div class="clearfix"></div>
+						</div>
+						<div style="width: 190px;float:left">
+							<i class='badge badge-info pull-right ' ng-show="currentMainAccount.status === 'active'"><span class='icon-ok'> </span></i>
+							<i class='badge pull-right ' ng-show="currentMainAccount.status	 === 'unconfirmed'"><span class=' icon-pause'></span></i>
+							{{currentMainAccount.username}}
+							<div class="clearfix"></div>
+							<small>{{currentMainAccount.time_ago}}</small>
+
+						</div>
+						<div class="clearfix"></div>
 					</a>
 				</li>
 		    </ul>

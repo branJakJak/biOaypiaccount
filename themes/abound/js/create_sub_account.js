@@ -1,7 +1,7 @@
 
 (function(window){
 
-function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
+function IndexCtrl($scope,MainAccountService,SubAccountService,growl , $interval){
 	var currentController = this;
 	$scope.message = "asdasd";
 	$scope.mainAccounts = [];
@@ -84,7 +84,7 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
 		.then(function(response){
 			if (response.data.status == "ok") {
 				currentController.selectMainAccount($scope.selectedMainAccountKey);
-				// alert('Sub account registered');
+
 				$scope.new_sub_account_username = "";
 				$scope.new_sub_account_password = "";
 				
@@ -109,10 +109,13 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
 	}
 
 	/*run main account status checker*/
-	// MainAccountService.checkMainAccountStatus()
-	// 	.then(function(){
-	// 		//whatever happens , update get main account fresh data
-	// 	});
+	$interval(function(){
+		MainAccountService.checkMainAccountStatus()
+			.then(function(){
+				currentController.initializeMainAccount();
+				console.log('main account status sync');
+			});
+	}, 5000);
 
 	this.initializeMainAccount = function(){
 		/*initialize main account*/
@@ -167,7 +170,7 @@ function SubAccountService($http){
 }
 
 angular.module('sub_account', ['angular-growl'])
-	.controller('IndexCtrl', ['$scope','MainAccountService','SubAccountService','growl', IndexCtrl])
+	.controller('IndexCtrl', ['$scope','MainAccountService','SubAccountService','growl','$interval', IndexCtrl])
 	.service('MainAccountService', ['$http', MainAccountService])
 	.service('SubAccountService', ['$http',SubAccountService])
 }(window));

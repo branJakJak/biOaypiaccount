@@ -20,6 +20,8 @@
  * @property string $fax
  * @property string $phone_number
  * @property string $email_address
+ * @property string $date_created
+ * @property string $date_updated
  *
  * The followings are the available model relations:
  * @property SubAccount[] $subAccounts
@@ -28,6 +30,7 @@ class MainAccount extends CActiveRecord
 {
 	const MAIN_ACCT_STATUS_ACTIVE = 'active';
 	const MAIN_ACCT_STATUS_INACTIVE = 'unconfirmed';
+	public $time_ago;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,9 +48,10 @@ class MainAccount extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('company_name,status, company_website, contact_person, username, password, retype_password, street, house_number, post_code, city, country, fax, phone_number, email_address', 'length', 'max'=>255),
+			array('date_created , date_updated', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, company_name, company_website, contact_person, username, password, retype_password, street, house_number, post_code, city, country, fax, phone_number, email_address', 'safe', 'on'=>'search'),
+			array('id, company_name, company_website, contact_person, username, password, retype_password, street, house_number, post_code, city, country, fax, phone_number, email_address,date_created , date_updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,6 +89,8 @@ class MainAccount extends CActiveRecord
 			'fax' => 'Fax',
 			'phone_number' => 'Phone Number',
 			'email_address' => 'Email Address',
+			"date_created"=>"Date created" , 
+			"date_updated"=>"Date updated"
 		);
 	}
 
@@ -138,4 +144,15 @@ class MainAccount extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	public function behaviors()
+	{
+		return array(
+		   'CTimestampBehavior' => array(
+		       'class' => 'zii.behaviors.CTimestampBehavior',
+		       'createAttribute' => 'date_created',
+		       'updateAttribute' => 'date_updated',
+		   )
+		);
+	}
+	
 }

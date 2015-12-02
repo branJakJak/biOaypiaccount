@@ -23,7 +23,7 @@ class MainAccountController extends Controller
 	{
 		return array(
 			array('allow', 
-				'actions'=>array('index','delete'),
+				'actions'=>array('index','delete','checkMainAccounts'),
 				'users'=>array('@'),
 			),
 			array('deny',
@@ -37,7 +37,13 @@ class MainAccountController extends Controller
 		$criteria = new CDbCriteria;
 		$criteria->order = "id desc";
 		$allMainAccts = MainAccount::model()->findAll($criteria);
-		echo CJSON::encode($allMainAccts);
+		$updatedArr = array();
+		foreach ($allMainAccts as $key => $value) {
+			$cur = $value->attributes;
+			$cur['time_ago'] = TimeAgoHelper::timeAgo(strtotime($value->date_created));
+			$updatedArr[] = $cur;
+		}
+		echo CJSON::encode($updatedArr);
 	}
 	public function actionDelete()
 	{
@@ -48,5 +54,17 @@ class MainAccountController extends Controller
 		$model->delete();
 		echo json_encode(array("status"=>"ok","message"=>"Main account deleted"));
 	}
-
+	public function actionCheckMainAccounts()
+	{
+		header("Content-Type: application/json");
+		$allMainAccounts = MainAccount::model()->findAll();
+		$checker = new MainAccountChecker();
+		foreach ($allMainAccounts as $key => $currentMainAccount) {
+			if ($checker->isActive($currentMainAccount)) {
+				$currentMainAccount->status = MainAccount::MAIN_ACCT_STATUS_ACTIVE;
+				$currentMainAccount->save();//update status
+			}
+		}
+		echo json_encode(array("status"=>"ok","message"=>"ok"));
+	}
 }

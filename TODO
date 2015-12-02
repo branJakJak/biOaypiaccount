@@ -26,4 +26,12 @@ check if the saved main account is registerded or not
 tapos kevs kung pwede mo sana sya lagyan ng exporter, 
 ng para sa mga main accounts created, sub user accounts created 
 at both
+@DONE
 
+
+@TODO- allow user to check if main account 
+is valid or not 
+
+
+@TODO - put date creation of main account 
+put that beside date_created

@@ -18,6 +18,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.libs.*',
         'bootstrap.helpers.TbHtml',
         'bootstrap.helpers.TbArray',
         'bootstrap.behaviors.TbWidget',
