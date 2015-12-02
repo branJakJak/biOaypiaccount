@@ -2,19 +2,23 @@
 	$baseUrl = Yii::app()->theme->baseUrl; 
 	Yii::app()->clientScript->registerCssFile($baseUrl.'/css/sub_account.css');
 
+
+
 	/*angularjs*/
 	Yii::app()->clientScript->registerScriptFile($baseUrl.'/bower_components/angularjs/angular.min.js', CClientScript::POS_END);
-	
+	/*angular extension*/	
+	Yii::app()->clientScript->registerScriptFile($baseUrl.'/bower_components/angular-growl-v2/build/angular-growl.min.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerCssFile($baseUrl.'/bower_components/angular-growl-v2/build/angular-growl.min.css');
 	/*my script*/
 	Yii::app()->clientScript->registerScriptFile($baseUrl.'/js/create_sub_account.js', CClientScript::POS_END);
 	
 
-	$this->menu = array(
-			""
-		);
+
+
 ?>
 <div ng-app="sub_account">
 	<div ng-controller="IndexCtrl as indexCtrl">
+		<div growl></div>
 		<div class="span3">
 			<strong>Quick filter </strong>
 			<ul class='quick-filter'>
