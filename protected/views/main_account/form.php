@@ -6,7 +6,19 @@ $this->menu = array(
 		array(
 				'label'=>"Generate Bulk",
 				'url'=>'bulk'
-			)
+			),
+		array(
+				'label'=>"Export All Accounts",
+				'url'=>'exportAll'
+			),
+		array(
+				'label'=>"Export All Main Accounts",
+				'url'=>'exportMain'
+			),
+		array(
+				'label'=>"Export All Sub Accounts",
+				'url'=>'exportSubAccount'
+			),
 	);
 
 ?>

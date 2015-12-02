@@ -17,23 +17,15 @@
 					'itemCssClass'=>'item-test',
                     'encodeLabel'=>false,
                     'items'=>array(
+                        array('label'=>'Home', 'url'=>array('/site/index')),
                         array('label'=>'Main Account', 'url'=>array('/mainAccount/create')),
                         array('label'=>'Sub Account', 'url'=>array('/subAccount/create')),
-                        array('label'=>'Home', 'url'=>array('/site/index')),
-      //                   array('label'=>'Graphs & Charts', 'url'=>array('/site/page', 'view'=>'graphs')),
-      //                   array('label'=>'Forms', 'url'=>array('/site/page', 'view'=>'forms')),
-      //                   array('label'=>'Tables', 'url'=>array('/site/page', 'view'=>'tables')),
-						// array('label'=>'Interface', 'url'=>array('/site/page', 'view'=>'interface')),
-      //                   array('label'=>'Typography', 'url'=>array('/site/page', 'view'=>'typography')),
-      //                   /*array('label'=>'Gii generated', 'url'=>array('customer/index')),*/
-      //                   array('label'=>'My Account <span class="caret"></span>', 'url'=>'#','itemOptions'=>array('class'=>'dropdown','tabindex'=>"-1"),'linkOptions'=>array('class'=>'dropdown-toggle','data-toggle'=>"dropdown"), 
-      //                   'items'=>array(
-      //                       array('label'=>'My Messages <span class="badge badge-warning pull-right">26</span>', 'url'=>'#'),
-						// 	array('label'=>'My Tasks <span class="badge badge-important pull-right">112</span>', 'url'=>'#'),
-						// 	array('label'=>'My Invoices <span class="badge badge-info pull-right">12</span>', 'url'=>'#'),
-						// 	array('label'=>'Separated link', 'url'=>'#'),
-						// 	array('label'=>'One more separated link', 'url'=>'#'),
-      //                   )),
+                        array('label'=>'Export <span class="caret"></span>', 'url'=>'#','itemOptions'=>array('class'=>'dropdown','tabindex'=>"-1"),'linkOptions'=>array('class'=>'dropdown-toggle','data-toggle'=>"dropdown"), 
+                        'items'=>array(
+                            array('label'=>'All ', 'url'=>array('mainAccount/exportAll')),
+              							array('label'=>'Main ', 'url'=>array('mainAccount/exportMain')),
+              							array('label'=>'Subs ', 'url'=>array('mainAccount/exportSubAccount')),
+                        )),
                         array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
                         array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 

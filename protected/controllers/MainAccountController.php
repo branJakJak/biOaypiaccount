@@ -24,7 +24,7 @@ class MainAccountController extends Controller
     {
         return array(
             array('allow',
-                'actions' => array('create','checkMainAccounts','bulk'),
+                'actions' => array('create','checkMainAccounts','bulk','exportAll','exportSubAccount','exportMain'),
                 'users' => array('@'),
             ),
             array('deny',
@@ -94,5 +94,85 @@ class MainAccountController extends Controller
             
         }
         echo json_encode(array("status"=>"ok","message"=>"All unconfirmed accounts checked"));
+    }
+    public function actionExportMain()
+    {
+        $fileName = 'All Main Account credentias-'.date("Y-m-d");
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private",false);
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=\"$fileName.csv\";" );
+        header("Content-Transfer-Encoding: binary");        
+
+        $csvFile = sys_get_temp_dir().'/'.uniqid().'.csv';
+        $csvFileObj = fopen($csvFile, "w+");
+        $allMainAccounts = MainAccount::model()->findAll();
+        foreach ($allMainAccounts as $key => $currentMainAccount) {
+            /*write to csv*/ 
+            fputcsv($csvFileObj, array($currentMainAccount->username,$currentMainAccount->password));
+        }
+        fclose($csvFileObj);
+        echo file_get_contents($csvFile);
+        /*download file*/                
+    }
+    public function actionIndex()
+    {
+        $this->redirect(array('create'));
+    }
+    public function actionExportSubAccount()
+    {
+        $fileName = 'All Sub Account credentias-'.date("Y-m-d");
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private",false);
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=\"$fileName.csv\";" );
+        header("Content-Transfer-Encoding: binary");
+
+        $csvFile = sys_get_temp_dir().'/'.uniqid().'.csv';
+        $csvFileObj = fopen($csvFile, "w+");
+        $allSubAccounts = SubAccount::model()->findAll();
+        foreach ($allSubAccounts as $key => $currentSubAccount) {
+            /*write to csv*/ 
+            fputcsv($csvFileObj, array($currentSubAccount->username,$currentSubAccount->password));
+        }
+        fclose($csvFileObj);
+        echo file_get_contents($csvFile);
+        /*download file*/        
+    }
+
+    public function actionExportAll()
+    {
+        $fileName = 'All Account credentias-'.date("Y-m-d");
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private",false);
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=\"$fileName.csv\";" );
+        header("Content-Transfer-Encoding: binary");
+
+        $csvFile = sys_get_temp_dir().'/'.uniqid().'.csv';
+        $csvFileObj = fopen($csvFile, "w+");
+        /*prepare CSV File*/
+        /*find all main accounts*/
+        $allMainAccount = MainAccount::model()->findAll();
+        fputcsv($csvFileObj, array("Main Account","Sub Account","Password"));
+        foreach ($allMainAccount as $key => $currentMainAccount) {
+            /*find all sub accounts*/
+            if (count($currentMainAccount->subAccounts) === 0) {
+                fputcsv($csvFileObj, array($currentMainAccount->username,'',$currentMainAccount->password));
+            }
+            foreach ($currentMainAccount->subAccounts as $key => $currentSubAccountModel) {
+                /*write to csv*/
+                fputcsv($csvFileObj, array($currentMainAccount->username,$currentSubAccountModel->username,$currentSubAccountModel->password));
+            }            
+        }
+        fclose($csvFileObj);
+        echo file_get_contents($csvFile);
+        /*download file*/
     }
 }
