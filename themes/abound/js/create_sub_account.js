@@ -11,6 +11,23 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
 	$scope.add_button_text = "Register";
 	$scope.new_sub_account_username = "";
 	$scope.new_sub_account_password = "";
+
+	this.deleteCurrentMainAccount = function(mainAccountKey){
+		var mainAccountToDelete = $scope.mainAccounts[mainAccountKey];
+		if (confirm("Are you sure you want to delete this ? ")) {
+			MainAccountService.deleteMainAccount(mainAccountToDelete)
+			.then(function(response){
+				if (response.data.status === "ok") {
+					growl.success("Account deleted", {ttl:1000});
+				}else{
+					growl.error(response.data.message, {ttl:1000});
+				}
+			}).then(function(){
+				/*refresh main accounts*/
+				currentController.initializeMainAccount();
+			});
+		}
+	}
 	
 	this.selectMainAccount = function(keyOfSelectedMainAccount){
 		/*get selected main account*/
@@ -97,15 +114,17 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl){
 	// 		//whatever happens , update get main account fresh data
 	// 	});
 
-
-	/*initialize main account*/
-	MainAccountService.getMainAccount()
-		.then(function(response){
-			$scope.mainAccounts = response.data;
-		}, function(error){
-			alert(error.status+" : "+error.statusText+" . Access window.lastError for logs");
-			window.lastError = error;
-		});
+	this.initializeMainAccount = function(){
+		/*initialize main account*/
+		MainAccountService.getMainAccount()
+			.then(function(response){
+				$scope.mainAccounts = response.data;
+			}, function(error){
+				alert(error.status+" : "+error.statusText+" . Access window.lastError for logs");
+				window.lastError = error;
+			});
+	}
+	this.initializeMainAccount();
 }
 
 function MainAccountService($http){
@@ -114,6 +133,9 @@ function MainAccountService($http){
 	}
 	this.checkMainAccountStatus = function(){
 		return $http.get("/rest/mainAccount/checkMainAccounts");
+	}
+	this.deleteMainAccount = function(mainAccount){
+		return $http.post("/rest/mainAccount/delete",mainAccount);
 	}
 }
 function SubAccountService($http){

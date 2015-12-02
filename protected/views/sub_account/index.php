@@ -46,11 +46,13 @@
 			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in filteredAccounts = (mainAccounts | filter:filterTextMainAccount)">
 				<li ng-class="{ 'active':selectedMainAccountKey === key }">
 					<a href="#dropdowns" ng-click="indexCtrl.selectMainAccount(key)">
-						<i class='badge badge-info pull-right' ng-show="currentMainAccount.status === 'active'">active</i>
-						<i class='badge pull-right ' ng-show="currentMainAccount.status	 === 'unconfirmed'">unconfirmed</i>
+						<i class='badge badge-info pull-right hidden' ng-show="currentMainAccount.status === 'active'">active</i>
+						<i class='badge pull-right hidden' ng-show="currentMainAccount.status	 === 'unconfirmed'">unconfirmed</i>
+						<i class='badge badge-warning pull-right' ng-click="indexCtrl.deleteCurrentMainAccount(key)">
+							<span class=" icon-remove-sign icon-white"></span>
+						</i>
 						{{currentMainAccount.username}}
 					</a>
-
 				</li>
 		    </ul>
 		</div>
