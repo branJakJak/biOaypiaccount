@@ -31,6 +31,10 @@ class MainAccountModel extends CFormModel{
         $this->company_website = $faker->url;
         $this->contact_person = $faker->name;
         $this->username = $faker->userName;
+        if (strlen($this->username) <= 8) {
+            $this->username = $this->username.uniqid();
+            $this->username = substr($this->username, 0, 10);
+        }
         $this->password = $password;
         $this->retype_password = $password;
         $this->street = $faker->streetName;
