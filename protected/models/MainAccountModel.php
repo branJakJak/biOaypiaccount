@@ -30,7 +30,7 @@ class MainAccountModel extends CFormModel{
         $this->house_number = $faker->randomDigit;
         $this->post_code = $faker->postcode;
         $this->city = $faker->city;
-        $this->country = $faker->country;
+        $this->country = "United States";
         $this->email_address = $faker->email;
     }
 
