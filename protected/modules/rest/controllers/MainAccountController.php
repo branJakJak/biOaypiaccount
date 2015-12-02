@@ -23,7 +23,7 @@ class MainAccountController extends Controller
 	{
 		return array(
 			array('allow', 
-				'actions'=>array('index'),
+				'actions'=>array('index','delete'),
 				'users'=>array('@'),
 			),
 			array('deny',
@@ -34,8 +34,19 @@ class MainAccountController extends Controller
 	public function actionIndex()
 	{
 		header("Content-Type: application/json");
-		$allMainAccts = MainAccount::model()->findAll();
+		$criteria = new CDbCriteria;
+		$criteria->order = "id desc";
+		$allMainAccts = MainAccount::model()->findAll($criteria);
 		echo CJSON::encode($allMainAccts);
+	}
+	public function actionDelete()
+	{
+		header("Content-Type: application/json");
+		$postedData  = file_get_contents("php://input");
+		$postedData = json_decode($postedData);
+		$model = MainAccount::model()->findByPk($postedData->id);
+		$model->delete();
+		echo json_encode(array("status"=>"ok","message"=>"Main account deleted"));
 	}
 
 }
