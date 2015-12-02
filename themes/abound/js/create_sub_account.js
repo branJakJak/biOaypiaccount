@@ -109,13 +109,13 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl , $interval
 	}
 
 	/*run main account status checker*/
-	$interval(function(){
-		MainAccountService.checkMainAccountStatus()
-			.then(function(){
-				currentController.initializeMainAccount();
-				console.log('main account status sync');
-			});
-	}, 5000);
+	// $interval(function(){
+	// 	MainAccountService.checkMainAccountStatus()
+	// 		.then(function(){
+	// 			currentController.initializeMainAccount();
+	// 			console.log('main account status sync');
+	// 		});
+	// }, 5000);
 
 	this.initializeMainAccount = function(){
 		/*initialize main account*/

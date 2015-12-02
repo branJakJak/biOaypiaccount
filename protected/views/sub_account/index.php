@@ -53,8 +53,8 @@
 							<div class="clearfix"></div>
 						</div>
 						<div style="width: 190px;float:left">
-							<i class='badge badge-info pull-right ' ng-show="currentMainAccount.status === 'active'"><span class='icon-ok'> </span></i>
-							<i class='badge pull-right ' ng-show="currentMainAccount.status	 === 'unconfirmed'"><span class=' icon-pause'></span></i>
+							<i class='badge badge-info pull-right' ng-show="currentMainAccount.status === 'active'"><span class='icon-ok  icon-white'> </span></i>
+							<i class='badge pull-right' ng-show="currentMainAccount.status	 === 'unconfirmed'"><span class=' icon-pause  icon-white'></span></i>
 							{{currentMainAccount.username}}
 							<div class="clearfix"></div>
 							<small>{{currentMainAccount.time_ago}}</small>
