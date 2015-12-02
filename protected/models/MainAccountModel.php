@@ -1,4 +1,5 @@
 <?php
+use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 
 
 class MainAccountModel extends CFormModel{
@@ -18,14 +19,20 @@ class MainAccountModel extends CFormModel{
     public $email_address;
     
     function __construct() {
+        $generator = new ComputerPasswordGenerator();
+        $generator
+          ->setOptionValue(ComputerPasswordGenerator::OPTION_UPPER_CASE, true)
+          ->setOptionValue(ComputerPasswordGenerator::OPTION_LOWER_CASE, true)
+          ->setOptionValue(ComputerPasswordGenerator::OPTION_NUMBERS, true)
+        ;
+        $password = $generator->generatePassword();
         $faker = \Faker\Factory::create();
         $this->company_name = $faker->company;
         $this->company_website = $faker->url;
         $this->contact_person = $faker->name;
         $this->username = $faker->userName;
-        $passwordContainer = $faker->password();
-        $this->password = $passwordContainer;
-        $this->retype_password = $passwordContainer;
+        $this->password = $password;
+        $this->retype_password = $password;
         $this->street = $faker->streetName;
         $this->house_number = $faker->randomDigit;
         $this->post_code = $faker->postcode;
