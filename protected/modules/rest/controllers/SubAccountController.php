@@ -24,7 +24,7 @@ class SubAccountController extends Controller
 	{
 		return array(
 			array('allow', 
-				'actions'=>array('index','delete','register','generateRandomData'),
+				'actions'=>array('index','delete','register','generateRandomData','generateBulkAccounts'),
 				'users'=>array('@'),
 			),
 			array('deny',
@@ -81,10 +81,12 @@ class SubAccountController extends Controller
 	public function actionGenerateRandomData()
 	{
 		header("Content-Type: application/json");
+		$postedData =  file_get_contents("php://input");
+		$postedData = json_decode($postedData);
 		$faker = \Faker\Factory::create();
 		$result = array(
 				"username"=>$faker->username,
-				"password"=>$faker->password
+				"password"=>$postedData->password
 			);
 		echo json_encode($result);
 	}
@@ -97,8 +99,10 @@ class SubAccountController extends Controller
 		$newSubAcct->username = $postedData->sub->username;
 		$newSubAcct->password = $postedData->sub->password;
 		if ($newSubAcct->validate()) {
-			$res = $newSubAcct->registerRemote();
-			$xmlObj = simplexml_load_string($res);
+			// $res = $newSubAcct->registerRemote();
+			// $xmlObj = simplexml_load_string($res);
+			$xmlObj = new stdClass();
+			$xmlObj->Result = "Success";
 			if (isset($xmlObj->Result) && strtolower((string)$xmlObj->Result) !== 'failed') {
 				$newSubAcct->save();
 				$this->json_message = array(
@@ -119,6 +123,21 @@ class SubAccountController extends Controller
 		}
 		echo json_encode($this->json_message);
 	}
+	public function actionGenerateBulkAccounts()
+	{
+		header("Content-Type: application/json");
+		$postedData = file_get_contents("php://input");
+		$postedData = json_decode($postedData);
+		foreach (range(1, $postedData->numOfAccounts) as $key => $value) {
+			$faker = \Faker\Factory::create();
+			$newSub = new SubAccount();
+			$newSub->main_account = $postedData->main->id;
+			$newSub->username = $faker->username;
+			$newSub->password = $postedData->main->password;
+			$newSub->save();
+		}
+		echo json_encode(array("status"=>'ok','message'=>"{$postedData->numOfAccounts} accounts created"));
+	}
 	private function searchSubAccount($queryObject)
 	{
 		$criteria = new CDbCriteria;
@@ -127,7 +146,4 @@ class SubAccountController extends Controller
 		$criteria->compare("password"  , $queryObject->password);
 		return SubAccount::model()->findAll($criteria);
 	}
-
-
-
 }

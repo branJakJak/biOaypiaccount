@@ -42,7 +42,13 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 			window.lastError = error;
 		});
 	}
-	this.registerSubAccount = function(subAccountObj){
+	this.registerBulkSubAccount = function(){
+		var numOfAccounts = prompt("Enter number of accounts to create ");
+		numOfAccounts = parseInt(numOfAccounts);
+		SubAccountService.generateBulkAccounts($scope.selectedMainAccount ,numOfAccounts );
+		currentController.selectMainAccount($scope.selectedMainAccountKey);
+	}
+	this.registerSubAccount = function(){
 		$scope.add_button_text = "Registering...Please wait...";
 		var main_account_obj = $scope.selectedMainAccount;
 		var subAccountObj ={
@@ -54,7 +60,7 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 		.then(function(response){
 			if (response.data.status == "ok") {
 				currentController.selectMainAccount($scope.selectedMainAccountKey);
-				alert('Sub account registered');
+				// alert('Sub account registered');
 				$scope.new_sub_account_username = "";
 				$scope.new_sub_account_password = "";
 				
@@ -67,8 +73,8 @@ function IndexCtrl($scope,MainAccountService,SubAccountService){
 			window.lastError = error;
 		});
 	}
-	this.generateRandomSubAccount = function(){
-		SubAccountService.generateRandomData()
+	this.generateRandomSubAccount = function(mainAccount){
+		SubAccountService.generateRandomData(mainAccount)
 		.then(function(response){
 			$scope.new_sub_account_username = response.data.username;
 			$scope.new_sub_account_password = response.data.password;
@@ -120,8 +126,14 @@ function SubAccountService($http){
 			'password':""
 		});
 	}
-	this.generateRandomData = function(){
-		return $http.get("/rest/subAccount/generateRandomData");
+	this.generateRandomData = function(mainAccount){
+		return $http.post("/rest/subAccount/generateRandomData",mainAccount);
+	}
+	this.generateBulkAccounts = function(mainAccount,numOfAccounts){
+		return $http.post("/rest/subAccount/generateBulkAccounts",{
+			"main":mainAccount,
+			"numOfAccounts":numOfAccounts,
+		});
 	}
 }
 

@@ -24,7 +24,7 @@ class MainAccountController extends Controller
     {
         return array(
             array('allow',
-                'actions' => array('create','checkMainAccounts'),
+                'actions' => array('create','checkMainAccounts','bulk'),
                 'users' => array('@'),
             ),
             array('deny',
@@ -32,11 +32,37 @@ class MainAccountController extends Controller
             ),
         );
     }
+    public function actionBulk()
+    {
+        if (Yii::app()->request->isPostRequest) {
+            $numOfItems = intval($_POST['numOfItems']);
+            $archiveFileName = tempnam(sys_get_temp_dir(),uniqid()).'.zip';
 
+            /*iterate n times*/
+            $templateGenerator = new TemplateGenerator();
+            $archiveFile = new ZipArchive();
+            $archiveFile->open($archiveFileName , ZipArchive::CREATE);
+            foreach (range(1, $numOfItems) as $key => $value) {
+                /*generate template*/
+                $template1 = $templateGenerator->generate();
+                /*put to archive*/
+                $archiveFile->addFromString(basename($template1) , file_get_contents($template1));
+            }
+            $archiveFile->close();
+            /*publish archive file*/
+            $publishedUrl = Yii::app()->assetManager->publish($archiveFileName);
+            $messageoutput = CHtml::link('Download files', $publishedUrl);
+            /*put link at flash*/
+            Yii::app()->user->setFlash("success",$messageoutput);
+            /*redirect */
+            $this->redirect('/mainAccount/bulk');
+            /*done*/
+        }
+        $this->render('//main_account/bulk');
+    }
     public function actionCreate()
     {
         $model = new MainAccountModel;
-
         if (isset($_POST['MainAccountModel'])) {
             $model->attributes = $_POST['MainAccountModel'];
             if ($model->validate()) {
@@ -52,6 +78,10 @@ class MainAccountController extends Controller
         }
         $this->render('//main_account/form', array('model' => $model));
     }
+    /**
+     * @TODO - check if the main accounts exists the api
+     * @return [type] [description]
+     */
     public function actionCheckMainAccounts()
     {
         header("Content-Type: application/json");

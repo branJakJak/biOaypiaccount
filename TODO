@@ -1,12 +1,21 @@
 @TODO 
 creating sub account 
 > using main acct  , create sub account
-
+@DONE
 
 
 @TODO - main account checker
 check if the saved main account is registerded or not 
-
+@DONE
 
 @TODO - sub acct status checker 
+@DONE
+
+
+@TODO - Bulk Account creator for main 
+
+
+@TODO - bulk account creator for sub account
+
+@TODO - make main account and sub account password the same
 

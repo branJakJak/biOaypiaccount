@@ -3,7 +3,6 @@
 class AnnotateTest extends CDbTestCase {
 
     public $p;
-
     public function setUp() {
         $this->p = Post::model()->find();
         

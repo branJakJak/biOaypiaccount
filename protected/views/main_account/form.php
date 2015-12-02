@@ -2,6 +2,13 @@
 /* @var $this MainAccountModelController */
 /* @var $model MainAccountModel */
 /* @var $form CActiveForm */
+$this->menu = array(
+		array(
+				'label'=>"Generate Bulk",
+				'url'=>'bulk'
+			)
+	);
+
 ?>
 
 <div class="form">
