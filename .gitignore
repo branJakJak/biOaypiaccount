@@ -8,3 +8,4 @@ protected/composer.phar
 composer.phar
 error_log
 protected/error_log
+composer.lock
