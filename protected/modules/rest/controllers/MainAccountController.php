@@ -57,7 +57,9 @@ class MainAccountController extends Controller
 	public function actionCheckMainAccounts()
 	{
 		header("Content-Type: application/json");
-		$allMainAccounts = MainAccount::model()->findAll();
+		$criteria = new CDbCriteria;
+		$criteria->compare("status",MainAccount::MAIN_ACCT_STATUS_INACTIVE);
+		$allMainAccounts = MainAccount::model()->findAll($criteria);
 		$checker = new MainAccountChecker();
 		foreach ($allMainAccounts as $key => $currentMainAccount) {
 			if ($checker->isActive($currentMainAccount)) {
