@@ -34,7 +34,7 @@ class SubAccountController extends Controller
 	}
 	public function actionIndex()
 	{
-		// header("Content-Type: application/json");
+		header("Content-Type: application/json");
 		if (Yii::app()->request->isPostRequest) {
 			/*capture query object */
 			$queryObject = file_get_contents("php://input");
@@ -58,10 +58,6 @@ class SubAccountController extends Controller
 			/*if main account status is active  - delete at the api*/
 			$result = $model->remoteDelete();
 			$xmlObj = simplexml_load_string($result);
-
-			$xmlObj = new stdClass();
-			$xmlObj->Result = "success";
-
 			if (isset($xmlObj->Result) && ( (string)$xmlObj->Result ) !== 'Failed') {
 				$model->delete();
 				$this->json_message = array(
@@ -103,10 +99,8 @@ class SubAccountController extends Controller
 		$newSubAcct->username = $postedData->sub->username;
 		$newSubAcct->password = $postedData->sub->password;
 		if ($newSubAcct->validate()) {
-			// $res = $newSubAcct->registerRemote();
-			// $xmlObj = simplexml_load_string($res);
-			$xmlObj = new stdClass();
-			$xmlObj->Result = "Success";
+			$res = $newSubAcct->registerRemote();
+			$xmlObj = simplexml_load_string($res);
 			if (isset($xmlObj->Result) && strtolower((string)$xmlObj->Result) !== 'failed') {
 				$newSubAcct->save();
 				$this->json_message = array(
