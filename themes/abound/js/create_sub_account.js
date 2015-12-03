@@ -11,6 +11,7 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl , $interval
 	$scope.add_button_text = "Register";
 	$scope.new_sub_account_username = "";
 	$scope.new_sub_account_password = "";
+	$scope.filterTextStatus = "";
 
 	this.deleteCurrentMainAccount = function(mainAccountKey){
 		var mainAccountToDelete = $scope.mainAccounts[mainAccountKey];

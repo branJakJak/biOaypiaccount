@@ -28,26 +28,26 @@
 			<ul class='quick-filter'>
 				<li>
 					<label>
-						<input type="radio"  name='quickFilterMain' ng-click="filterTextMainAccount=''">
+						<input type="radio"  name='quickFilterMain' ng-click="filterTextStatus=''">
 						None
 					</label>
 				</li>				
 				<li>
 					<label>
-						<input type="radio"  name='quickFilterMain' ng-click="filterTextMainAccount='active'">
+						<input type="radio"  name='quickFilterMain' ng-click="filterTextStatus='active'">
 						Active
 					</label>
 				</li>
 				<li>
 					<label>
-						<input type="radio"  name='quickFilterMain' ng-click="filterTextMainAccount='unconfirmed'">
+						<input type="radio"  name='quickFilterMain' ng-click="filterTextStatus='unconfirmed'">
 						Unconfirmed
 					</label>
 				</li>
 			</ul>
 			<input type="search" class="form-control" required="required" title="" placeholder="Search Main account" style="width: 227px;padding: 13px;" ng-model="filterTextMainAccount">
 			<h5>Displaying {{filteredAccounts.length}} of {{mainAccounts.length}} result/s.</h5>
-			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{status:filterTextMainAccount} | filter:{username:filterTextMainAccount})">
+			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{status:filterTextStatus} | filter:{username:filterTextMainAccount})">
 				<li ng-class="{ 'active':selectedMainAccountKey === key }">
 					<a href="#dropdowns" ng-click="indexCtrl.selectMainAccount(key)">
 						<div style="width:30px;float:left">
