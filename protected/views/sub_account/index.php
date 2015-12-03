@@ -9,6 +9,10 @@
 	/*angular extension*/	
 	Yii::app()->clientScript->registerScriptFile($baseUrl.'/bower_components/angular-growl-v2/build/angular-growl.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerCssFile($baseUrl.'/bower_components/angular-growl-v2/build/angular-growl.min.css');
+	/*angularjs clipboard*/
+	Yii::app()->clientScript->registerScriptFile($baseUrl.'/bower_components/angular-clipboard/angular-clipboard.js', CClientScript::POS_END);
+
+
 	/*my script*/
 	Yii::app()->clientScript->registerScriptFile($baseUrl.'/js/create_sub_account.js', CClientScript::POS_END);
 	
@@ -74,7 +78,15 @@
 			<div ng-show="selectedMainAccountKey !== null">
 				<div class="well">
 					<h3>
-						Sub Account under {{selectedMainAccount.username}}
+						<small>*You can click the link to copy to Clipboard</small> <br>
+						Main Account : 
+						<button title="click to copy to clipboard" clipboard text="selectedMainAccount.username" type='button' class='btn btn-link'>
+							{{selectedMainAccount.username}}
+						</button>
+						<button title="click to copy to clipboard" clipboard text="selectedMainAccount.password" type='button' class='btn btn-link'>
+							{{selectedMainAccount.password}}
+						</button>
+						
 					</h3>
 				</div>
 				<p>
@@ -82,6 +94,7 @@
 				<strong class='pull-right'>Displaying {{currentSubAccountsFiltered.length}} of {{currentSubAccounts.length}} result/s.</strong>
 				<br>
 				</p>
+				<h3>Sub Accounts</h3>
 				<table class="table table-hover table-bordered">
 					<thead>
 						<th>Username</th>
@@ -116,11 +129,11 @@
 										{{add_button_text}}
 									</button>
 									<button  type="button" class="btn btn-default" ng-click="indexCtrl.registerBulkSubAccount()">
-										Bulk Sub Acct
+										Bulk Sub User
 									</button>
 
 									<button type="button" class="btn btn-default" ng-click="indexCtrl.generateRandomSubAccount(selectedMainAccount)">
-										Generate Random
+										Generate Sub User
 									</button>
 								</div>								
 							</td>
