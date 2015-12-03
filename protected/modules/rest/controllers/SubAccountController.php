@@ -99,6 +99,7 @@ class SubAccountController extends Controller
 		$newSubAcct->username = $postedData->sub->username;
 		$newSubAcct->password = $postedData->sub->password;
 		if ($newSubAcct->validate()) {
+
 			$res = $newSubAcct->registerRemote();
 			$xmlObj = simplexml_load_string($res);
 			if (isset($xmlObj->Result) && strtolower((string)$xmlObj->Result) !== 'failed') {
@@ -126,15 +127,21 @@ class SubAccountController extends Controller
 		header("Content-Type: application/json");
 		$postedData = file_get_contents("php://input");
 		$postedData = json_decode($postedData);
+		$insertedData = 0;
 		foreach (range(1, $postedData->numOfAccounts) as $key => $value) {
 			$faker = \Faker\Factory::create();
 			$newSub = new SubAccount();
 			$newSub->main_account = $postedData->main->id;
 			$newSub->username = $faker->username;
 			$newSub->password = $postedData->main->password;
-			$newSub->save();
+			$res = $newSub->registerRemote();
+			$xmlObj = simplexml_load_string($res);	
+			if (isset($xmlObj->Result) && strtolower((string)$xmlObj->Result) !== 'failed') {
+				$newSub->save();
+				$insertedData++;
+			}
 		}
-		echo json_encode(array("status"=>'ok','message'=>"{$postedData->numOfAccounts} accounts created"));
+		echo json_encode(array("status"=>'ok','message'=>"{$insertedData} accounts created"));
 	}
 	private function searchSubAccount($queryObject)
 	{
