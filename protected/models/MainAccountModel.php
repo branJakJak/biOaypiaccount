@@ -25,15 +25,17 @@ class MainAccountModel extends CFormModel{
           ->setOptionValue(ComputerPasswordGenerator::OPTION_LOWER_CASE, true)
           ->setOptionValue(ComputerPasswordGenerator::OPTION_NUMBERS, true)
         ;
+        $generator->setLength(15);
         $password = $generator->generatePassword();
         $faker = \Faker\Factory::create();
         $this->company_name = $faker->company;
         $this->company_website = $faker->url;
         $this->contact_person = $faker->name;
         $this->username = $faker->userName;
-        if (strlen($this->username) <= 8) {
-            $this->username = $this->username.uniqid();
-            $this->username = substr($this->username, 0, 10);
+        if (strlen($this->username) <= 15) {
+            $this->username = $this->username . substr( uniqid() , 0, 10);
+            // $this->username = $this->username.uniqid();
+            // $this->username = substr($this->username, 0, 10);
         }
         $this->password = $password;
         $this->retype_password = $password;

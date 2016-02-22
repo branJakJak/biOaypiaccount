@@ -132,6 +132,7 @@ class SubAccount extends CActiveRecord
 			"password"=>$this->mainAccount->retype_password,
 			"customer"=>$this->username,
 			"customerpassword"=>$this->password,
+			"tariffrate"=>-3,
 		);
 		$curlURL .= http_build_query($httpParams);
 		$curlres = curl_init($curlURL);

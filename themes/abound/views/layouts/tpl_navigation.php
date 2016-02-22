@@ -23,7 +23,7 @@
                         array('label'=>'Export <span class="caret"></span>', 'url'=>'#','itemOptions'=>array('class'=>'dropdown','tabindex'=>"-1"),'linkOptions'=>array('class'=>'dropdown-toggle','data-toggle'=>"dropdown"), 
                         'items'=>array(
                             array('label'=>'All ', 'url'=>array('mainAccount/exportAll')),
-              							array('label'=>'Main ', 'url'=>array('mainAccount/exportMain')),
+              							array('label'=>'Main(Active)', 'url'=>array('mainAccount/exportMain')),
               							array('label'=>'Subs ', 'url'=>array('mainAccount/exportSubAccount')),
                         )),
                         array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

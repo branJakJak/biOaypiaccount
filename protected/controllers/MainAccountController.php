@@ -32,6 +32,7 @@ class MainAccountController extends Controller
             ),
         );
     }
+
     public function actionBulk()
     {
         if (Yii::app()->request->isPostRequest) {
@@ -108,7 +109,9 @@ class MainAccountController extends Controller
 
         $csvFile = sys_get_temp_dir().'/'.uniqid().'.csv';
         $csvFileObj = fopen($csvFile, "w+");
-        $allMainAccounts = MainAccount::model()->findAll();
+        $criteria = new CDbCriteria;
+        $criteria->compare("status" , MainAccount::MAIN_ACCT_STATUS_ACTIVE);
+        $allMainAccounts = MainAccount::model()->findAll($criteria);
         foreach ($allMainAccounts as $key => $currentMainAccount) {
             /*write to csv*/ 
             fputcsv($csvFileObj, array($currentMainAccount->username,$currentMainAccount->password));
