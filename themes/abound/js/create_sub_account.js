@@ -12,6 +12,7 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl , $interval
 	$scope.new_sub_account_username = "";
 	$scope.new_sub_account_password = "";
 	$scope.filterTextStatus = "";
+	$scope.fedAccounts = [];
 
 	this.deleteCurrentMainAccount = function(mainAccountKey){
 		var mainAccountToDelete = $scope.mainAccounts[mainAccountKey];
@@ -33,7 +34,8 @@ function IndexCtrl($scope,MainAccountService,SubAccountService,growl , $interval
 	this.selectMainAccount = function(keyOfSelectedMainAccount){
 		/*get selected main account*/
 		$scope.selectedMainAccountKey = keyOfSelectedMainAccount;
-		$scope.selectedMainAccount = $scope.mainAccounts[keyOfSelectedMainAccount];
+		$scope.selectedMainAccount = $scope.fedAccounts[keyOfSelectedMainAccount];
+		console.log($scope.selectedMainAccount);
 		SubAccountService.getSubAccounts($scope.selectedMainAccount.id)
 			.then(function(response){
 				$scope.currentSubAccounts = response.data;
