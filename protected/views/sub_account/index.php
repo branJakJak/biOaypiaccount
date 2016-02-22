@@ -49,7 +49,7 @@
 			<h5>Displaying {{fedAccounts.length}} of {{mainAccounts.length}} result/s.</h5>
 			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{status:filterTextStatus,username:filterTextMainAccount})">
 				<li ng-class="{ 'active':selectedMainAccountKey === key }">
-					<a href="#dropdowns" ng-click="indexCtrl.selectMainAccount(key)">
+					<a ng-click="indexCtrl.selectMainAccount(key)">
 						<div style="width:30px;float:left">
 							<i class='pull-left' ng-click="indexCtrl.deleteCurrentMainAccount(key)">
 								<span class=' icon-remove'></span>
