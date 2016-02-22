@@ -17,9 +17,15 @@
 	Yii::app()->clientScript->registerScriptFile($baseUrl.'/js/create_sub_account.js', CClientScript::POS_END);
 	
 
-
-
 ?>
+<style type="text/css">
+	
+#content > div > div > div.span3 > ul > li > a{
+	cursor:pointer;
+}
+
+</style>
+
 <div ng-app="sub_account">
 	<div ng-controller="IndexCtrl as indexCtrl">
 		<div growl></div>
