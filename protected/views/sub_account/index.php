@@ -18,10 +18,27 @@
 	
 
 ?>
+<script type="text/javascript">
+	
+Number.prototype.pad = function(size) {
+      var s = String(this);
+      while (s.length < (size || 2)) {s = "0" + s;}
+      return s;
+    }	
+</script>
+
 <style type="text/css">
 	
 #content > div > div > div.span3 > ul > li > a{
 	cursor:pointer;
+}
+.numbering-label{
+	margin-top: 20px;
+    position: relative;
+    background-color: rgb(29, 46, 123);
+    color: white;
+    padding: 8px;
+    border-radius: 20px;
 }
 
 </style>
@@ -62,14 +79,18 @@
 							</i>
 							<div class="clearfix"></div>
 						</div>
-						<div style="width: 190px;float:left">
-							<i class='badge badge-info pull-right' ng-show="currentMainAccount.status === 'active'"><span class='icon-ok  icon-white'> </span></i>
-							<i class='badge pull-right' ng-show="currentMainAccount.status	 === 'unconfirmed'"><span class=' icon-pause  icon-white'></span></i>
+						<div style="width: 160px;float:left">
 							{{currentMainAccount.username}}
 							<div class="clearfix"></div>
-							<small>{{currentMainAccount.time_ago}}</small>
-
+							<small>{{currentMainAccount.time_ago}} | {{currentMainAccount.status}}</small>
 						</div>
+						<div style="width:30px;float:left">
+							<strong class='numbering-label'>
+								{{ (key+1).pad(2) }}
+							</strong>
+							<div class="clearfix"></div>
+						</div>
+
 						<div class="clearfix"></div>
 					</a>
 				</li>
