@@ -53,8 +53,8 @@
 			</ul>
 			<input type="search" class="form-control" required="required" title="" placeholder="Search Main account" style="width: 227px;padding: 13px;" ng-model="filterTextMainAccount">
 			<h5>Displaying {{fedAccounts.length}} of {{mainAccounts.length}} result/s.</h5>
-			<ul class="nav nav-list bs-docs-sidenav" ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{status:filterTextStatus,username:filterTextMainAccount})">
-				<li ng-class="{ 'active':selectedMainAccountKey === key }">
+			<ol class="nav nav-list bs-docs-sidenav">
+				<li ng-class="{ 'active':selectedMainAccountKey === key }"  ng-repeat="(key, currentMainAccount) in fedAccounts = (mainAccounts | filter:{status:filterTextStatus,username:filterTextMainAccount})">
 					<a ng-click="indexCtrl.selectMainAccount(key)">
 						<div style="width:30px;float:left">
 							<i class='pull-left' ng-click="indexCtrl.deleteCurrentMainAccount(key)">
@@ -73,7 +73,7 @@
 						<div class="clearfix"></div>
 					</a>
 				</li>
-		    </ul>
+		    </ol>
 		</div>
 		<div class="span9" >
 			<div data-offset-top="100" data-spy="affix" class=" sub-account-main-container span9">

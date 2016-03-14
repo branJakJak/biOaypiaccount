@@ -39,7 +39,9 @@
 <div class="subnav navbar navbar-fixed-top">
     <div class="navbar-inner">
     	<div class="container">
+            <?php if (!Yii::app()->user->isGuest): ?>
             <?php echo CHtml::link('Clear all records', array('/deleteAll/main'), array('class'=>'btn btn-default','confirm'=>'Are you sure you want to delete all accounts?')); ?>
+            <?php endif ?>
     	</div><!-- container -->
     </div><!-- navbar-inner -->
 </div><!-- subnav -->
