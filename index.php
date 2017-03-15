@@ -9,11 +9,9 @@
 $autoload = dirname(__FILE__) . '/protected/vendor/autoload.php';
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/protected/framework/yii.php';
-$config = '';
+$config=dirname(__FILE__).'/protected/config/main.php';
 if (YII_DEBUG) {
 	$config=dirname(__FILE__).'/protected/config/development.php';
-} else {
-	$config=dirname(__FILE__).'/protected/config/main.php';
 }
 
 
