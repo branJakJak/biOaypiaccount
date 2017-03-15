@@ -41,6 +41,7 @@ class MainAccountController extends Controller
 
             /*iterate n times*/
             $templateGenerator = new TemplateGenerator();
+            $templateGenerator->template_name = @$_POST['template_name'];
             $archiveFile = new ZipArchive();
             $archiveFile->open($archiveFileName , ZipArchive::CREATE);
             foreach (range(1, $numOfItems) as $key => $value) {

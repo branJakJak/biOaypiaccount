@@ -5,6 +5,7 @@
 */
 class TemplateGenerator
 {
+	public $template_name;
 	public function generate()
 	{
 		$model = new MainAccountModel();
@@ -12,7 +13,7 @@ class TemplateGenerator
 		$ccc = new CController('context');
 		$fileName = tempnam(sys_get_temp_dir(), "asd");
 		$fileName .= ".html";
-		$htmlOutput = $ccc->renderInternal(Yii::getPathOfAlias("application.views.templates").'/index.php',  $model->attributes, true);
+		$htmlOutput = $ccc->renderInternal(Yii::getPathOfAlias("application.views.templates").'/'.$this->template_name.'.php',  $model->attributes, true);
 		file_put_contents($fileName, $htmlOutput);
 		return $fileName;
 	}
