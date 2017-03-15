@@ -35,6 +35,14 @@ $this->widget('bootstrap.widgets.TbAlert', array(
 	    'success'=>array('block'=>true, 'fade'=>true, 'closeText'=>'×'),
     ),
 )); 
+$htmlTemplates = [];
+$pathOfTemplates = Yii::getPathOfAlias("application.views.templates");
+foreach (new DirectoryIterator($pathOfTemplates) as $fileInfo) {
+    if($fileInfo->isDot()) continue;
+    $file =  $fileInfo->getFilename();
+    $file = ucwords(str_replace(".php", '', $file));
+    $htmlTemplates[ strtolower($file) ] = $file;
+}
 
 ?>
 
@@ -49,6 +57,11 @@ $this->widget('bootstrap.widgets.TbAlert', array(
 
 	<div></div>
 	<?php echo $form->errorSummary($model); ?>
+	<hr class='span9'>
+	<div class="span9">
+		<label>Template</label>
+		<?php echo CHtml::dropDownList('template_name', '', $htmlTemplates); ?>
+	</div>
 	<hr class='span9'>
 	<div>
 		<div class="span3" style="margin-left:24.828px">

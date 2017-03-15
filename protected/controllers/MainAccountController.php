@@ -68,7 +68,8 @@ class MainAccountController extends Controller
             $model->attributes = $_POST['MainAccountModel'];
             if ($model->validate()) {
                 $model->save();
-                $htmlOutput = $this->renderPartial('//templates/index', $model->attributes, true);
+                $templateToUse = $_POST['template_name'];
+                $htmlOutput = $this->renderPartial('//templates/'.$templateToUse, $model->attributes, true);
                 $fileName = tempnam(sys_get_temp_dir(), "asd");
                 $fileName .= ".html";
                 file_put_contents($fileName, $htmlOutput);

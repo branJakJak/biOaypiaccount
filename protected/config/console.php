@@ -10,6 +10,7 @@ return array(
 	),
 	// application components
 	'components' => array(
+        
 		// uncomment the following to use a MySQL database
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=dncsyste_acct',

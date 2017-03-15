@@ -10,13 +10,20 @@ return array(
     ),
     // application components
     'components'=>array(
+        
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=server5_ds',
+            'connectionString' => 'mysql:host=localhost;dbname=acct',
             'emulatePrepare' => true,
             'username' => 'root',
-            'password' => 'root',
-            'charset' => 'utf8',
+            'password' => '',
+            'charset' => 'utf8',        
         ),
-
     ),
+    'modules'=>array(
+        'user'=>array(
+                'tableUsers' => 'users',
+                'tableProfiles' => 'profiles',
+                'tableProfileFields' => 'profiles_fields',
+        ),
+    )    
 );
